@@ -1,9 +1,8 @@
-from rest_framework import routers
+from django.urls import path
 
-from .views import PokemonsView
-from .api import PokemonsViewSets
-router = routers.DefaultRouter()
+from .api import PokemonsViewSets, pokemons_detail_view
 
-router.register('api/projects',PokemonsViewSets,'projects')
-router.register('api/projects/vista', PokemonsView, 'vistaPokemon')
-urlpatterns = router.urls
+urlpatterns= [
+    path('api/', PokemonsViewSets.as_view(), name='api_pokemons'),
+    path('api/<int:pk>/', pokemons_detail_view, name='pokemon_detail_api_view')
+]
