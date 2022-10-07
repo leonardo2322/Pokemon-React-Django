@@ -8,16 +8,16 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = PokemonsBBDD
         fields = ('id', 'nombre', 'categoria', 'habilidades', 'dano', 'img')
         
-    # def to_representation(self,instance):
-    #     print(type(instance.img),'aca')
-    #     data = super(ProjectSerializer, self).to_representation(instance)
-    #     return data
-    #     return {
-    #         'id': instance.id,
-    #         'nombre': instance.nombre,
-    #         'categoria':instance.categoria,
-    #         'habilidades':instance.habilidades,
-    #         'dano':instance.dano,
-    #         'img':instance.img.url
+    def to_representation(self,instance):
+        # print(type(instance.img),'aca')
+        # data = super(ProjectSerializer, self).to_representation(instance)
+        # return data
+        return {
+            'id': instance.id,
+            'nombre': instance.nombre,
+            'categoria':instance.categoria,
+            'habilidades':instance.habilidades,
+            'dano':instance.dano,
+            'img':instance.img.url
             
-    #     }
+        }

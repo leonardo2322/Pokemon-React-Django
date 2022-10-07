@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.parsers import MultiPartParser, FormParser,JSONParser,FileUploadParser
 
 from rest_framework.response import Response
-
+import json
 from .serializers import ProjectSerializer
 from .models import PokemonsBBDD
 
@@ -14,7 +14,7 @@ class PokemonsViewSets(APIView):
 
     parser_classes = (MultiPartParser, FormParser, JSONParser,FileUploadParser)
 
-    def get(self, request,pk=0, *args, **kwargs):
+    def get(self, request,pk=0,format= None, *args, **kwargs):
         if (pk>0):
             pokemon = list(PokemonsBBDD.objects.filter(id=pk).values())
             if len(pokemon)>0:
@@ -38,8 +38,7 @@ class PokemonsViewSets(APIView):
             return Response(datos,status=status.HTTP_200_OK)
     
     
-    def userPost(self, request, format= None):
-
+    def post(self, request, format= None):
         serialize = ProjectSerializer(data=request.data)
         if serialize.is_valid():
                 serialize.save()
@@ -47,7 +46,7 @@ class PokemonsViewSets(APIView):
         return Response(serialize.errors,status=status.HTTP_400_BAD_REQUEST)
 
  
-    def put(self,request,*args,**kwargs):
+    def put(self,request,format= None,*args,**kwargs):
         if request.method == 'POST':
             print(request.data)
             serialeze = ProjectSerializer(request,data = request.data)
@@ -55,7 +54,7 @@ class PokemonsViewSets(APIView):
                 serialeze.save()
                 return Response(serialeze.data,status=status.HTTP_200_OK)
         return Response(serialeze.errors,status=status.HTTP_400_BAD_REQUEST)
-    def delete(self,request,pk=0,*args,**kwargsl):
+    def delete(self,request,pk=0,format= None,*args,**kwargsl):
         
         pokemon = PokemonsBBDD.objects.filter(id = pk).first()
         if pokemon:
